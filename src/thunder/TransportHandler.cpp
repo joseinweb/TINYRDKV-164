@@ -68,12 +68,14 @@ int TransportHandler::initialize()
     return status;
 }
 
-void TransportHandler::connect()
+void TransportHandler::connect(const std::string & authToken)
 {
     // Create a connection to the given URI and queue it for connection once
     // the event loop starts
     websocketpp::lib::error_code ec;
     wsclient::connection_ptr con = m_client.get_connection(m_wsUrl, ec);
+    std::string token = "Bearer "+authToken;
+    con.get()->append_header("Authorization", token);
     m_client.connect(con);
 
     // Start the ASIO io_service run loop

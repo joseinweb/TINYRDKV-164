@@ -57,7 +57,7 @@ public:
     int initialize();
     void registerConnectionHandler(std::function<void(bool)> callback);
     void registerMessageHandler(std::function<void(const std::string)> callback);
-    void connect();
+    void connect(const std::string &authToken);
     int sendMessage(std::string message);
     void disconnect();
 

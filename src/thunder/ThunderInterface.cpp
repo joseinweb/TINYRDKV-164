@@ -86,9 +86,10 @@ void ThunderInterface::connectToThunder()
         // Do we need to join and then delete ?
         delete mp_thThread;
     }
+    const string token = getSecurityToken();
     auto &handler = mp_handler;
-    mp_thThread = new std::thread([handler]
-                                  { handler->connect(); });
+    mp_thThread = new std::thread([handler, token]
+                                  { handler->connect(token); });
 }
 
 bool ThunderInterface::sendMessage(const string jsonmsg, int msgId, int timeout)
@@ -285,4 +286,17 @@ void ThunderInterface::removeMemoryListener()
     {
         registerEvent(event, false);
     }
+}
+#define MAX_TOKEN_LENGTH 2048
+const std::string ThunderInterface::getSecurityToken()
+{
+    unsigned char buffer[MAX_TOKEN_LENGTH]= {0};
+    int ret = GetSecurityToken(MAX_TOKEN_LENGTH,buffer);
+    if(ret >0)
+    {
+        std::string token = std::string(reinterpret_cast<char*>(buffer));
+        return token;
+
+    }
+    return "";
 }

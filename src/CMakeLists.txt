@@ -27,10 +27,13 @@ add_executable(${TARGET}
 find_package(PkgConfig)
 find_package(jsoncpp)
 find_package(websocketpp)
+find_package(securityagent)
 
-
+target_include_directories(${TARGET} PRIVATE
+        $ENV{PKG_CONFIG_SYSROOT_DIR}/usr/include/WPEFramework
+        )
 target_link_libraries(${TARGET}
-        pthread jsoncpp systemd
+        pthread jsoncpp systemd WPEFrameworkSecurityUtil
 )
 
 set_target_properties(${TARGET} PROPERTIES

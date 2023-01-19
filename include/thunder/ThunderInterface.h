@@ -27,6 +27,7 @@
 #include "EventUtils.h"
 #include "TransportHandler.h"
 #include "EventListener.h"
+#include <securityagent/SecurityTokenUtil.h>
 class ThunderInterface : public EventListener
 {
 public:
@@ -92,4 +93,5 @@ private:
 
     bool sendMessage(const std::string jsonmsg, int msgId, int timeout = REQUEST_TIMEOUT_IN_MS);
     bool sendSubscriptionMessage(const std::string jsonmsg, int msgId, int timeout = REQUEST_TIMEOUT_IN_MS);
+    const std::string getSecurityToken();
 };
